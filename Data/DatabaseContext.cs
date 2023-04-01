@@ -7,7 +7,7 @@ namespace FirstMVCapp.Data
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         public DbSet<Employee> Employees { get; set; }

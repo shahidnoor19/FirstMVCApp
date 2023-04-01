@@ -1,9 +1,10 @@
-﻿using FirstMVCapp.Models;
+﻿using FirstMVCapp.Data;
+using FirstMVCapp.Models;
 using FirstMVCapp.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FirstMVCapp.Data
+namespace FirstMVCapp.Controllers
 {
     public class EmployeeController : Controller
     {
@@ -53,7 +54,7 @@ namespace FirstMVCapp.Data
         {
             var empoyee = await _context.Employees.Where(e => e.Id == id).FirstOrDefaultAsync();
 
-            if(empoyee != null)
+            if (empoyee != null)
             {
                 var viewModel = new UpdateEmployeeViewModel()
                 {
@@ -64,7 +65,7 @@ namespace FirstMVCapp.Data
                     Email = empoyee.Email,
                     Salary = empoyee.Salary,
                 };
-                return await Task.Run(() => View("View",viewModel));
+                return await Task.Run(() => View("View", viewModel));
             }
             return RedirectToAction("Index");
         }
@@ -73,7 +74,7 @@ namespace FirstMVCapp.Data
         public async Task<IActionResult> View(UpdateEmployeeViewModel model)
         {
             var employee = await _context.Employees.Where(e => e.Id == model.Id).FirstOrDefaultAsync();
-            if(employee != null)
+            if (employee != null)
             {
                 employee.Name = model.Name;
                 employee.Department = model.Department;
@@ -83,7 +84,7 @@ namespace FirstMVCapp.Data
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
-               
+
             }
             return RedirectToAction("Index");
         }
@@ -92,7 +93,7 @@ namespace FirstMVCapp.Data
         public async Task<IActionResult> Delete(UpdateEmployeeViewModel model)
         {
             var employee = await _context.Employees.Where(e => e.Id == model.Id).FirstOrDefaultAsync();
-            if(employee != null)
+            if (employee != null)
             {
                 _context.Employees.Remove(employee);
                 await _context.SaveChangesAsync();
